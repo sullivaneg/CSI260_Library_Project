@@ -10,7 +10,7 @@ class Catalog:
         """searches by name"""
         result = []
         for entry in self.catalog:
-            if string in entry:
+            if string in entry.name:
                 result.append(entry)
 
         if not result:
