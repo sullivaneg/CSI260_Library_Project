@@ -1,3 +1,4 @@
+#We're not using this anymore, but we are keeping it for posterity.
 class LibraryItem:
     def __init__(self, name, isbn, genre=None, resource_type=None):
         self.name = name
