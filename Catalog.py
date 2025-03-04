@@ -1,5 +1,5 @@
 #Defining a Catalog Class
-import Libary_Item
+import Library_Item
 
 class Catalog:
     def __init__(self, catalog):
@@ -16,6 +16,7 @@ class Catalog:
         if not result:
             return "No Results Found"
         return result
+
     def print_add_item(self, item):
         name = input("Enter the name of the item: ")
         isbn = input("Enter the isbn of the item: ")
@@ -25,19 +26,22 @@ class Catalog:
             author = input("Enter the author of the item: ")
             pages = input("Enter the number of pages of the item: ")
             cover_type = input("Enter the cover type of the item: ")
-            return Libary_Item.Book(name, isbn, genre, item, author, pages, cover_type)
+            return Library_Item.Book(name, isbn, genre, author, pages, cover_type)
+
         if item == "Movie":
             director = input("Enter the director of the item: ")
             duration = input("Enter the duration of the item: ")
-            return Libary_Item.Movie(name, isbn, genre, item, director, duration)
+            return Library_Item.Movie(name, isbn, genre, director, duration)
+
         if item == "CD":
             artist = input("Enter the artist of the item: ")
             tracks = input("Enter the number of tracks of the item: ")
             length = input("Enter the length of the item: ")
-            return Libary_Item.CD(name, isbn, genre, item, artist, tracks, length)
+            return Library_Item.CD(name, isbn, genre, artist, tracks, length)
+
     def add_item(self, item):
-        item = self.print_add_item(self)
-        self.catalog.append(item)
+        library_item = self.print_add_item(item)
+        self.catalog.append(library_item)
 
     def sort_by_type(self, type):
         pass
@@ -45,8 +49,7 @@ class Catalog:
     def sort_by_name(self, name):
         pass
 
-    def remove_item(self, items):
-        for item in items:
+    def remove_item(self, item):
             self.catalog.remove(item)
 
     def print_items(self):
@@ -54,8 +57,8 @@ class Catalog:
             print(item.to_short_string())
 
 
-
-def user_interface(self, My_Catalog):
+#User Interface
+def user_interface(my_catalog):
         # User Interface
         main = True
 
@@ -72,7 +75,7 @@ def user_interface(self, My_Catalog):
 
             if option == "1":
                 search_string = input("Enter search keyword:")
-                results = My_Catalog.search(search_string)
+                results = my_catalog.search(search_string)
                 if results:
                     for item in results:
                         print(item)
@@ -80,16 +83,25 @@ def user_interface(self, My_Catalog):
                     print("No results found")
 
             elif option == "2":
-                My_Catalog.print_items()
+                my_catalog.print_items()
 
             elif option == "3":
-
-                My_Catalog.add_item(input())
-
+                choice = input("Please enter CD, Book, or Movie: ")
+                my_catalog.add_item(choice)
 
             elif option == "4":
                 to_remove = input("Enter item to remove:")
-                #Same issue as above
+                results = my_catalog.search(to_remove)
+                if results:
+                    for item in results:
+                        print(item)
+                        choice = input("Do you want to remove it? (y/n): ")
+                        if choice == "y":
+                            my_catalog.remove_item(item)
+                        else:
+                            break
+                else:
+                    print("No results found")
 
             elif option == "5":
                 print("Thank you for using CSI260 Library")
