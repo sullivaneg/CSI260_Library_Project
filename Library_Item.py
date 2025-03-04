@@ -28,7 +28,7 @@ class Book(LibraryItem):
         self.cover_type = cover_type
 
     def __str__(self):
-        return f'Book: {self.name} by {self.author}, {self.pages} pages, {self.cover_type} cover (ISBN: {self.isbn})'
+        return f'Book: {self.name} by {self.author}, {self.pages} pages, {self.cover_type}cover (ISBN: {self.isbn})'
 
 
 # Class 2 of 3
