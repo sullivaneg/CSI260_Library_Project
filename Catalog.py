@@ -26,18 +26,18 @@ class Catalog:
             author = input("Enter the author of the item: ")
             pages = input("Enter the number of pages of the item: ")
             cover_type = input("Enter the cover type of the item: ")
-            return Library_Item.Book(name, isbn, genre, author, pages, cover_type)
+            return Library_Item.Book(name, isbn, author, pages, cover_type, genre)
 
         if item == "Movie":
             director = input("Enter the director of the item: ")
             duration = input("Enter the duration of the item: ")
-            return Library_Item.Movie(name, isbn, genre, director, duration)
+            return Library_Item.Movie(name, isbn, director, duration, genre)
 
         if item == "CD":
             artist = input("Enter the artist of the item: ")
             tracks = input("Enter the number of tracks of the item: ")
             length = input("Enter the length of the item: ")
-            return Library_Item.CD(name, isbn, genre, artist, tracks, length)
+            return Library_Item.CD(name, isbn, artist, tracks, length, genre)
 
     def add_item(self, item):
         library_item = self.print_add_item(item)
@@ -86,8 +86,15 @@ def user_interface(my_catalog):
                 my_catalog.print_items()
 
             elif option == "3":
-                choice = input("Please enter CD, Book, or Movie: ")
-                my_catalog.add_item(choice)
+                loop = True
+                while loop == True:
+                    choice = input("Please enter CD, Book, or Movie: ")
+                    if choice != "Book" and choice != "Movie" and choice != "CD":
+                        print("Invalid Choice")
+                        loop = True
+                    else:
+                        my_catalog.add_item(choice)
+                        loop = False
 
             elif option == "4":
                 to_remove = input("Enter item to remove:")
@@ -99,7 +106,7 @@ def user_interface(my_catalog):
                         if choice == "y":
                             my_catalog.remove_item(item)
                         else:
-                            break
+                            continue
                 else:
                     print("No results found")
 
