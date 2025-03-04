@@ -1,15 +1,43 @@
 #Defining a Catalog Class
+import Libary_Item
+
 class Catalog:
     def __init__(self, catalog):
         #catalog is catalog[], the list of all the Library Items
         self.catalog = catalog
 
     def search(self, string):
-        #How do we want to search?
+        """searches by name"""
+        result = []
+        for entry in self.catalog:
+            if string in entry.name:
+                result.append(entry)
 
-    def add_item(self, items):
-        for item in items:
-            self.catalog.append(item)
+        if not result:
+            return "No Results Found"
+        return result
+    def print_add_item(self, item):
+        name = input("Enter the name of the item: ")
+        isbn = input("Enter the isbn of the item: ")
+        genre = input("Enter the genre of the item: ")
+
+        if item == "Book":
+            author = input("Enter the author of the item: ")
+            pages = input("Enter the number of pages of the item: ")
+            cover_type = input("Enter the cover type of the item: ")
+            return Libary_Item.Book(name, isbn, genre, item, author, pages, cover_type)
+        if item == "Movie":
+            director = input("Enter the director of the item: ")
+            duration = input("Enter the duration of the item: ")
+            return Libary_Item.Movie(name, isbn, genre, item, director, duration)
+        if item == "CD":
+            artist = input("Enter the artist of the item: ")
+            tracks = input("Enter the number of tracks of the item: ")
+            length = input("Enter the length of the item: ")
+            return Libary_Item.CD(name, isbn, genre, item, artist, tracks, length)
+    def add_item(self, item):
+        item = self.print_add_item(self)
+        self.catalog.append(item)
 
     def sort_by_type(self, type):
         pass
@@ -55,10 +83,9 @@ def user_interface(self, My_Catalog):
                 My_Catalog.print_items()
 
             elif option == "3":
-                My_Catalog.add_item(input("Enter item to add:"))
-                # NOT YET IMPLEMENTED, I NEED TO FIGURE OUT HOW TO SEARCH FOR
-                # AN ITEM. UNLESS IT WILL ONLY BE REMOVABLE BY ID NO,
-                # WHICH WE NEED TO DECIDE HOW THOSE WILL BE ASSIGNED
+
+                My_Catalog.add_item(input())
+
 
             elif option == "4":
                 to_remove = input("Enter item to remove:")
