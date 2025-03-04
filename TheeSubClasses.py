@@ -1,3 +1,6 @@
+"""
+This file is not in use anymore but we wanted to keep it so you can see everyone did work if you look in our github
+"""
 #These will be the three subclasses that we came up with during class:
 #This is the main class
 class LibraryItem:
