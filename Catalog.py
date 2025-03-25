@@ -43,14 +43,14 @@ class Catalog:
         self.catalog = list()
 
     def search(self, string):
-        """searches by name"""
+        """searches by attribute"""
         result = []
         for entry in self.catalog:
             if entry.match(string):
                 result.append(entry)
 
         if not result:
-            return "No Results Found"
+            return ["No Results Found"]
         return result
 
     def print_add_item(self, item):
@@ -81,19 +81,14 @@ class Catalog:
         library_item = self.print_add_item(item)
         self.catalog.append(library_item)
 
-    def sort_by_type(self, type):
-        pass
-
-    def sort_by_name(self, name):
-        pass
-
     def remove_item(self, item):
+        """removes item"""
         self.catalog.remove(item)
 
     def print_items(self):
         """prints entire catalog"""
         for item in self.catalog:
-            print(item)
+            print(item.to_short_string())
 
 
 # User Interface
@@ -103,6 +98,7 @@ def user_interface(my_catalog):
     main = True
 
     while main:
+        print("-----------------------------")
         print("Welcome to CSI260 Library")
         print("-----------------------------")
         print("1. Search Catalog")
@@ -114,7 +110,7 @@ def user_interface(my_catalog):
         option = input("Enter (1-5) to select an option: ")
 
         if option == "1":
-            search_string = input("Enter search keyword:")
+            search_string = input("Enter search keyword (Artist, Movie, Title, etc):")
             results = my_catalog.search(search_string)
             if results:
                 for item in results:

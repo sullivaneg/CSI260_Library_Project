@@ -29,7 +29,6 @@ def load_catalog():
     """loads catalogue from save.p file"""
     # looking before leap
     if os.path.exists("./save.p"):
-        print("opened file")
         try:
             with open("save.p", "rb") as f:
                 cat = pickle.load(f)

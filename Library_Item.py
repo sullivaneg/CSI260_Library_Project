@@ -21,7 +21,8 @@ from abc import ABC, abstractmethod
 class LibraryItem(ABC):
     """Abstract Base Class for library items"""
 
-    def init(self, name, isbn, genre, resource_type):
+    def __init__(self, name, isbn, genre, resource_type):
+        """init method for parent class which sets shared member vars"""
         self.name = name
         self.isbn = isbn
         self.genre = genre if genre else []
@@ -45,20 +46,25 @@ class Book(LibraryItem):
     """Book class is a subclass of the abstract base class LibraryItem"""
 
     def __init__(self, name, isbn, author, pages, cover_type, genre=None):
+        """init method for subclass which calls super"""
         super().__init__(name, isbn, genre, resource_type="Book")
         self.author = author
         self.pages = pages
         self.cover_type = cover_type
 
     def __str__(self):
+        """full string dunder method"""
         return f'Book: {self.name} by {self.author}, {self.pages} pages, {self.cover_type} (ISBN: {self.isbn})'
 
     def to_short_string(self):
+        """returns a short string of book item"""
         return f'Book: {self.name} - {self.author} - (ISBN: {self.isbn})'
 
     def match(self, filter_text):
+        """Match method for searching which includes all member vars of subclass"""
         return filter_text.lower() in self.name.lower() or \
             filter_text.lower() == self.isbn.lower() or \
+            filter_text.lower() == self.resource_type.lower() or \
             any(filter_text.lower() in str(g).lower() for g in self.genre) or \
             filter_text.lower() in self.author.lower() or filter_text == self.pages or \
             filter_text.lower() in self.cover_type.lower()
@@ -69,19 +75,24 @@ class Movie(LibraryItem):
     """Movie class is a subclass of the abstract base class LibraryItem"""
 
     def __init__(self, name, isbn, director, duration, genre=None):
+        """init method for subclass which calls super"""
         super().__init__(name, isbn, genre, resource_type="Movie")
         self.director = director
         self.duration = duration
 
     def __str__(self):
+        """full string dunder method"""
         return f'Movie: {self.name}, directed by {self.director}, {self.duration} min (ISBN: {self.isbn})'
 
     def to_short_string(self):
+        """returns a short string of movie item"""
         return f'Movie: {self.name} - {self.director} - (ISBN: {self.isbn})'
 
     def match(self, filter_text):
+        """Match method for searching which includes all member vars of subclass"""
         return filter_text.lower() in self.name.lower() or \
             filter_text.lower() == self.isbn.lower() or \
+            filter_text.lower() == self.resource_type.lower() or \
             any(filter_text.lower() in str(g).lower() for g in self.genre) or \
             filter_text.lower() in self.director.lower() or filter_text == self.duration
 
@@ -91,19 +102,24 @@ class CD(LibraryItem):
     """CD class is a subclass of LibraryItem"""
 
     def __init__(self, name, isbn, artist, tracks, length, genre=None):
+        """init method for subclass which calls super"""
         super().__init__(name, isbn, genre, resource_type="CD")
         self.artist = artist
         self.tracks = tracks
         self.length = length
 
     def __str__(self):
+        """full string dunder method"""
         return f'CD: {self.name} by {self.artist}, {self.tracks} tracks, {self.length} minutes (ISBN: {self.isbn})'
 
     def to_short_string(self):
+        """returns a short string of CD item"""
         return f'CD: {self.name} - {self.artist} - (ISBN: {self.isbn})'
 
     def match(self, filter_text):
+        """Match method for searching which includes all member vars of subclass"""
         return filter_text.lower() in self.name.lower() or \
             filter_text.lower() == self.isbn.lower() or \
+            filter_text.lower() == self.resource_type.lower() or \
             any(filter_text.lower() in str(g).lower() for g in self.genre) or \
             filter_text.lower() in self.artist.lower() or filter_text == self.tracks or filter_text == self.length
