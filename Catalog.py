@@ -46,7 +46,7 @@ class Catalog:
         """searches by name"""
         result = []
         for entry in self.catalog:
-            if string in entry.name:
+            if entry.match(string):
                 result.append(entry)
 
         if not result:
