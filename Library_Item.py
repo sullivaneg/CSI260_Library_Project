@@ -16,16 +16,17 @@ assignment may, for the purpose of assessing this assignment:
 - the purpose of future plagiarism checking)
 """
 from abc import ABC, abstractmethod
+from Category_Tag import CategoryTag
 
 
 class LibraryItem(ABC):
     """Abstract Base Class for library items"""
 
-    def __init__(self, name, isbn, genre, resource_type):
+    def __init__(self, name, isbn, category, resource_type):
         """init method for parent class which sets shared member vars"""
         self.name = name
         self.isbn = isbn
-        self.genre = genre if genre else []
+        self.category = category if category else []
         self.resource_type = resource_type
 
     @abstractmethod
@@ -45,16 +46,17 @@ class LibraryItem(ABC):
 class Book(LibraryItem):
     """Book class is a subclass of the abstract base class LibraryItem"""
 
-    def __init__(self, name, isbn, author, pages, cover_type, genre=None):
+    def __init__(self, name, isbn, author, pages, cover_type, category):
         """init method for subclass which calls super"""
-        super().__init__(name, isbn, genre, resource_type="Book")
+        super().__init__(name, isbn, category, resource_type="Book")
         self.author = author
         self.pages = pages
         self.cover_type = cover_type
 
     def __str__(self):
         """full string dunder method"""
-        return f'Book: {self.name} by {self.author}, {self.pages} pages, {self.cover_type} (ISBN: {self.isbn})'
+        return f'Book: {self.name} by {self.author}, {self.pages} pages, {self.cover_type} (ISBN: {self.isbn})\n' \
+               f'Tags {self.category}'
 
     def to_short_string(self):
         """returns a short string of book item"""
@@ -65,7 +67,7 @@ class Book(LibraryItem):
         return filter_text.lower() in self.name.lower() or \
             filter_text.lower() == self.isbn.lower() or \
             filter_text.lower() == self.resource_type.lower() or \
-            any(filter_text.lower() in str(g).lower() for g in self.genre) or \
+            any(filter_text.lower() in str(c).lower() for c in self.category) or \
             filter_text.lower() in self.author.lower() or filter_text == self.pages or \
             filter_text.lower() in self.cover_type.lower()
 
@@ -74,15 +76,16 @@ class Book(LibraryItem):
 class Movie(LibraryItem):
     """Movie class is a subclass of the abstract base class LibraryItem"""
 
-    def __init__(self, name, isbn, director, duration, genre=None):
+    def __init__(self, name, isbn, director, duration, category):
         """init method for subclass which calls super"""
-        super().__init__(name, isbn, genre, resource_type="Movie")
+        super().__init__(name, isbn, category, resource_type="Movie")
         self.director = director
         self.duration = duration
 
     def __str__(self):
         """full string dunder method"""
-        return f'Movie: {self.name}, directed by {self.director}, {self.duration} min (ISBN: {self.isbn})'
+        return f'Movie: {self.name}, directed by {self.director}, {self.duration} min (ISBN: {self.isbn})\n' \
+               f'Tags {self.category}'
 
     def to_short_string(self):
         """returns a short string of movie item"""
@@ -93,7 +96,7 @@ class Movie(LibraryItem):
         return filter_text.lower() in self.name.lower() or \
             filter_text.lower() == self.isbn.lower() or \
             filter_text.lower() == self.resource_type.lower() or \
-            any(filter_text.lower() in str(g).lower() for g in self.genre) or \
+            any(filter_text.lower() in str(c).lower() for c in self.category) or \
             filter_text.lower() in self.director.lower() or filter_text == self.duration
 
 
@@ -101,16 +104,17 @@ class Movie(LibraryItem):
 class CD(LibraryItem):
     """CD class is a subclass of LibraryItem"""
 
-    def __init__(self, name, isbn, artist, tracks, length, genre=None):
+    def __init__(self, name, isbn, artist, tracks, length, category):
         """init method for subclass which calls super"""
-        super().__init__(name, isbn, genre, resource_type="CD")
+        super().__init__(name, isbn, category, resource_type="CD")
         self.artist = artist
         self.tracks = tracks
         self.length = length
 
     def __str__(self):
         """full string dunder method"""
-        return f'CD: {self.name} by {self.artist}, {self.tracks} tracks, {self.length} minutes (ISBN: {self.isbn})'
+        return f'CD: {self.name} by {self.artist}, {self.tracks} tracks, {self.length} minutes (ISBN: {self.isbn})\n' \
+               f'Tags {self.category}'
 
     def to_short_string(self):
         """returns a short string of CD item"""
@@ -121,5 +125,5 @@ class CD(LibraryItem):
         return filter_text.lower() in self.name.lower() or \
             filter_text.lower() == self.isbn.lower() or \
             filter_text.lower() == self.resource_type.lower() or \
-            any(filter_text.lower() in str(g).lower() for g in self.genre) or \
+            any(filter_text.lower() in str(c).lower() for c in self.category) or \
             filter_text.lower() in self.artist.lower() or filter_text == self.tracks or filter_text == self.length

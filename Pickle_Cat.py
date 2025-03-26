@@ -20,24 +20,26 @@ import pickle
 import os.path
 
 
-def save_catalog(cat):
+def save_catalog(cat, category_tags):
     """save catalog array to save.p"""
-    pickle.dump(cat, open("save.p", "wb"))
+    data = {"catalog": cat, "category_tags": category_tags}
+    with open("save.p", "wb") as f:
+        pickle.dump(data, f)
 
 
 def load_catalog():
-    """loads catalogue from save.p file"""
-    # looking before leap
-    if os.path.exists("./save.p"):
+    """Loads catalog and category tags from save.p file"""
+    if os.path.exists("save.p"):
         try:
             with open("save.p", "rb") as f:
-                cat = pickle.load(f)
-            if cat:
-                return cat
-            else:
-                return None
-        except(FileNotFoundError, EOFError) as err:
-            print(err)
-    else:
-        return None
+                data = pickle.load(f)
+
+            catalog = data.get('catalog')
+            category_tags = data.get('category_tags')
+
+            return catalog, category_tags  # Ensure always returning a tuple
+        except (FileNotFoundError, EOFError, pickle.UnpicklingError) as err:
+            print(f"Error loading catalog: {err}")
+
+    return None, []  # Ensure a tuple is returned
 

@@ -1,4 +1,4 @@
-"""Main file to test the program
+"""Category tag class
 
 Authors: Abigail Gehlbach, Charles Justus, Emma Sullivan, Sebastian Dominguez
 Class: CSI-260-01
@@ -16,16 +16,28 @@ assignment may, for the purpose of assessing this assignment:
 - the purpose of future plagiarism checking)
 """
 
-import Pickle_Cat
-import Catalog
-import Category_Tag
 
-# try to read catalog
-catalog, category_tags = Pickle_Cat.load_catalog()
+class CategoryTag:
+    _all_tags = []
 
-if catalog is None:
-    catalog = Catalog.Catalog()
-if category_tags is not None:
-    Category_Tag.CategoryTag._all_tags = category_tags
+    @classmethod
+    def all_category_tags(cls):
+        """return all category tags comma sep'd"""
+        return ", ".join(category.name for category in cls._all_tags)
 
-Catalog.user_interface(catalog)
+    @classmethod
+    def get_all_tags(cls):
+        """return all tags var"""
+        return cls._all_tags
+
+    @classmethod
+    def set_all_tags(cls, tags):
+        """Load tags from saved data"""
+        cls._all_tags = tags
+
+    def __init__(self, name):
+        self.name = name
+        self._all_tags.append(self)
+
+    def __str__(self):
+        return f'{self.name}'

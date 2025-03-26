@@ -15,25 +15,10 @@ assignment may, for the purpose of assessing this assignment:
 - service (which may then retain a copy of this assignment on its database for
 - the purpose of future plagiarism checking)
 """
+import Category_Tag
 import Library_Item
 import Pickle_Cat
-
-"""
-TODO: 
-Add the following features to class Catalog:
-
-    The ability to save to a pickle file - DONE
-    The ability to open from a pickle file - DONE
-
-CategoryTag has attributes:
-    A "private" class variable that is a list of all CategoryTags that have been created so far
-    The name of the tag
-
-Category Tag needs to to implement:
-    __init__(self, name)
-    __str__(self)
-    (class method) all_category_tags() - A properly formatted string with all tags that have been created 
-"""
+from Category_Tag import CategoryTag
 
 
 class Catalog:
@@ -57,24 +42,25 @@ class Catalog:
         """method to return new library item and print UI"""
         name = input("Enter the name of the item: ")
         isbn = input("Enter the isbn of the item: ")
-        genre = input("Enter the genre of the item: ")
+
+        category = set_category()
 
         if item == "Book":
             author = input("Enter the author of the item: ")
             pages = input("Enter the number of pages of the item: ")
             cover_type = input("Enter the cover type of the item: ")
-            return Library_Item.Book(name, isbn, author, pages, cover_type, genre)
+            return Library_Item.Book(name, isbn, author, pages, cover_type, category)
 
         if item == "Movie":
             director = input("Enter the director of the item: ")
             duration = input("Enter the duration of the item: ")
-            return Library_Item.Movie(name, isbn, director, duration, genre)
+            return Library_Item.Movie(name, isbn, director, duration, category)
 
         if item == "CD":
             artist = input("Enter the artist of the item: ")
             tracks = input("Enter the number of tracks of the item: ")
             length = input("Enter the length of the item in minutes: ")
-            return Library_Item.CD(name, isbn, artist, tracks, length, genre)
+            return Library_Item.CD(name, isbn, artist, tracks, length, category)
 
     def add_item(self, item):
         """calls helper method and adds item to catalog"""
@@ -89,6 +75,16 @@ class Catalog:
         """prints entire catalog"""
         for item in self.catalog:
             print(item.to_short_string())
+
+
+def set_category():
+    category_arr = []
+    while True:
+        category = input(f"Enter a category tag for this item or 0 to exit: ")
+        if category != '0':
+            category_arr.append(category)
+        else:
+            return category_arr
 
 
 # User Interface
@@ -149,6 +145,6 @@ def user_interface(my_catalog):
         elif option == "5":
             print("Thank you for using CSI260 Library")
             print("Saving...")
-            Pickle_Cat.save_catalog(my_catalog)
+            Pickle_Cat.save_catalog(my_catalog, Category_Tag.CategoryTag.get_all_tags())
             print("Exiting...")
             main = False
